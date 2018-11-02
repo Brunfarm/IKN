@@ -12,13 +12,11 @@ def main(argv):
 	print("The server is ready to recieve")
 	while True:
 		conSock, addr = servSock.accept()
-		print("connected")
+		print("client connected")
 		msg = Lib.readTextTCP(conSock)
-		print(msg)
-	
-		if msg == "exit":
-			conSock.close()
-		else:
+		while msg != "exit":
+			print("Command received: %s" % msg)
+		
 			fileSize = Lib.check_File_Exists(msg)
 	
 			if fileSize > 0:
@@ -26,6 +24,7 @@ def main(argv):
 				sendFile(msg, fileSize, conSock)
 			else:
 				Lib.writeTextTCP(str(fileSize), conSock)
+			msg = Lib.readTextTCP(conSock)
 		conSock.close()
 	
 	
