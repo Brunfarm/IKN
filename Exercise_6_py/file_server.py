@@ -9,13 +9,13 @@ def main(argv):
 	servSock = socket(AF_INET, SOCK_STREAM)
 	servSock.bind((HOST, PORT))
 	servSock.listen(1)
-	print("The server is ready to recieve")
+	print("The server is ready to recieve\n")
 	while True:
 		conSock, addr = servSock.accept()
-		print("client connected")
+		print("client connected\n")
 		msg = Lib.readTextTCP(conSock)
 		while msg != "exit":
-			print("Command received: %s" % msg)
+			print("Command received: %s\n" % msg)
 		
 			fileSize = Lib.check_File_Exists(msg)
 	
@@ -26,6 +26,7 @@ def main(argv):
 				Lib.writeTextTCP(str(fileSize), conSock)
 			msg = Lib.readTextTCP(conSock)
 		conSock.close()
+		print("Connection closed")
 	
 	
 
