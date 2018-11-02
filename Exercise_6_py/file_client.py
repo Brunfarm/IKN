@@ -8,25 +8,22 @@ SERVER = '10.0.0.1'
 
 def main(argv):
 	sock = socket(AF_INET, SOCK_STREAM)
-	if len(argv) > 0:
-		cmd = argv[0]
-	else:
-		print("Brug 'file_client.py <filnavn>")
-		sys.exit()
 	sock.connect((SERVER,PORT))
 	print("Forbundet til server")
-	print(cmd)
-	Lib.writeTextTCP(cmd,sock)
+	cmd = input("Indtast filnavn. Ved afslutning skriv 'exit'\n")
+	while cmd != "exit":
+		Lib.writeTextTCP(cmd,sock)
 
-	fileSize = Lib.getFileSizeTCP(sock)
-	print(fileSize)
+		fileSize = Lib.getFileSizeTCP(sock)
+		print(fileSize)
 	
-	if fileSize > 0:
-		receiveFile(cmd, sock, fileSize)
-	else:
-		print("Fil ikke fundet")
-		sys.exit()
+		if fileSize > 0:
+			receiveFile(cmd, sock, fileSize)
+		else:
+			print("Fil ikke fundet")
+		cmd = input("Indtast filnavn. Ved afslutning skriv 'exit'\n")
 	sock.close()
+	sys.exit()
 		
     
 def receiveFile(nm,  conn, siz):
