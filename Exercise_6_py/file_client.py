@@ -7,33 +7,34 @@ BUFSIZE = 1000
 SERVER = '10.0.0.1'
 
 def main(argv):
-	sock = socket(AF_INET, SOCK_DGRAM)
+	sock = socket(AF_INET, SOCK_STREAM)
 	if len(argv) > 0:
 		cmd = argv[0]
 	else:
-		print("Brug 'file_client.py(<filnavn>)")
+		print("Brug 'file_client.py <filnavn>")
 		sys.exit()
 	sock.connect((SERVER,PORT))
 	print("Forbundet til server")
+	print(cmd)
 	Lib.writeTextTCP(cmd,sock)
 
 	fileSize = Lib.getFileSizeTCP(sock)
-	
+	print(fileSize)
 	
 	if fileSize > 0:
-		recieveFile(cmd, sock)
+		receiveFile(cmd, sock, fileSize)
 	else:
 		print("Fil ikke fundet")
 		sys.exit()
 	sock.close()
 		
     
-def receiveFile(cmd,  conn):
+def receiveFile(nm,  conn, siz):
 	bytesRead = 0
-	fileName = Lib.extractFilename(cmd)
+	fileName = Lib.extractFilename(nm)
 	file = open(fileName, 'wb')
 
-	while bytesRead < fileSize:
+	while bytesRead < siz:
 		buff = conn.recv(BUFSIZE)
 		file.write(buff)
 		bytesRead = bytesRead+len(buff)
