@@ -2,12 +2,12 @@ import sys
 from socket import *
 from lib import Lib
 
-PORT = 9000
+PORT = int(sys.argv[1])
 BUFSIZE = 1000
 
 def main(argv):
-	if len(argv) > 0:
-		SERVER = argv[0]
+	if len(argv) > 2:
+		SERVER = sys.argv[2]
 	else:
 		print("Benyt formatet 'python file_client.py <IP>'\n")
 		sys.exit()
@@ -26,6 +26,7 @@ def main(argv):
 		else:
 			print("Fil ikke fundet\n")
 		cmd = input("Indtast filnavn. Ved afslutning skriv 'exit'\n")
+		
 	Lib.writeTextTCP(cmd,sock)
 	sock.close()
 	sys.exit()
