@@ -2,12 +2,12 @@ import sys
 from socket import *
 from lib import Lib
 
-PORT = int(sys.argv[1])
+PORT = int(sys.argv[2])
 BUFSIZE = 1000
 
 def main(argv):
 	if len(argv) > 2:
-		SERVER = sys.argv[2]
+		SERVER = sys.argv[1]
 	else:
 		print("Benyt formatet 'python file_client.py <IP>'\n")
 		sys.exit()
